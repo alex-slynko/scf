@@ -2142,6 +2142,10 @@ configuration:
     properties.cc.packages.webdav_config.password: '"((BLOBSTORE_PASSWORD))"'
     properties.cc.packages.webdav_config.private_endpoint: https://blobstore-blobstore.((KUBERNETES_NAMESPACE)).svc.((KUBERNETES_CLUSTER_DOMAIN)):4443
     properties.cc.packages.webdav_config.public_endpoint: '"https://blobstore.((DOMAIN))"'
+    properties.cc.public_tls.ca_cert: '"((INTERNAL_CA_CERT))"'
+    properties.cc.public_tls.certificate: '"((CC_PUBLIC_TLS_CERT))"'
+    properties.cc.public_tls.port: '"((CC_PUBLIC_TLS_PORT))"'
+    properties.cc.public_tls.private_key: '"((CC_PUBLIC_TLS_CERT_KEY))"'
     properties.cc.resource_pool.webdav_config.password: '"((BLOBSTORE_PASSWORD))"'
     properties.cc.resource_pool.webdav_config.private_endpoint: https://blobstore-blobstore.((KUBERNETES_NAMESPACE)).svc.((KUBERNETES_CLUSTER_DOMAIN)):4443
     properties.cc.resource_pool.webdav_config.public_endpoint: '"https://blobstore.((DOMAIN))"'
@@ -3068,6 +3072,23 @@ variables:
     description: A map of labels and encryption keys
     secret: true
     default: "~"
+- name: CC_PUBLIC_TLS_CERT
+  options:
+    secret: true
+    ca: INTERNAL_CA_CERT
+    role_name: api
+    description: The PEM-encoded certificate for secure TLS communication over external endpoints.
+    required: true
+  type: certificate
+- name: CC_PUBLIC_TLS_CERT_KEY
+  options:
+    secret: true
+    description: The PEM-encoded key for secure TLS communication over external endpoints.
+    required: true
+- name: CC_PUBLIC_TLS_PORT
+  options:
+    default: 9024
+    description: The port for TLS with gorouter.
 - name: CC_SERVER_CRT
   options:
     secret: true
